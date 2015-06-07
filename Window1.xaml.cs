@@ -683,7 +683,7 @@ namespace Emgu.CV.StickyTetris
         /// </summary>
         /// <param name="skeleton"></param>
         /// <param name="drawingContext"></param>
-        /// <param name="joints"></param> All joints to be drawn.
+        /// <param name="joints"> All joints to be drawn.</param>
         private void drawManyBones(Skeleton skeleton, DrawingContext drawingContext, List<Joint> joints)
         {
             int counter = 0;
