@@ -668,14 +668,22 @@ namespace Emgu.CV.StickyTetris
             if (span.Seconds >= levelTime)
             {
                 _timer.Stop();
-                bgMusic.Stop();
-                kinectRegion.Visibility = Visibility.Visible;
-                Game.Visibility = Visibility.Hidden;
-                kinectButton.Visibility = Visibility.Visible;
-                kinectButton.IsEnabled = true;
-                game_over.Visibility = Visibility.Visible;
-                startScreenMusic.Play();
+                gameOver();
             }
+        }
+
+        /// <summary>
+        /// Loads up menu when game is over.
+        /// </summary>
+        private void gameOver()
+        {
+            bgMusic.Stop();
+            kinectRegion.Visibility = Visibility.Visible;
+            Game.Visibility = Visibility.Hidden;
+            kinectButton.Visibility = Visibility.Visible;
+            kinectButton.IsEnabled = true;
+            game_over.Visibility = Visibility.Visible;
+            startScreenMusic.Play();
         }
 
         /// <summary>
