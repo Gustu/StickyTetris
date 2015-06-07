@@ -57,18 +57,20 @@ namespace Emgu.CV.StickyTetris
         /// </summary>
         private readonly Brush centerPointBrush = Brushes.Blue;
 
+        /// <summary>
+        /// Contour shift in Y axis;
+        /// </summary>
         private const int drawShift = 10;
 
         /// <summary>
-        /// Brush used for drawing joints that are currently tracked
+        /// Brush used to draw game contour.
         /// </summary>
-        private readonly Brush trackedJointBrush = new SolidColorBrush(Color.FromArgb(255, 68, 192, 68));
-
         private readonly Brush contourBrush = new SolidColorBrush(Color.FromRgb(0, 228, 255));
 
+        /// <summary>
+        /// Pen used to draw Sticky.
+        /// </summary>
         private readonly Pen stickyPen = new Pen(new SolidColorBrush(Color.FromArgb(255, 142, 0, 200)), 20);
-
-        private readonly Brush stickyBrush = new SolidColorBrush(Color.FromArgb(255, 142, 0, 200));
 
         /// <summary>
         /// Active Kinect sensor
@@ -85,31 +87,88 @@ namespace Emgu.CV.StickyTetris
         /// </summary>
         private DrawingImage imageSource;
 
+        /// <summary>
+        /// Points array that will be used in geometry.
+        /// </summary>
         private System.Drawing.Point[] po;
+
+        /// <summary>
+        /// Used for getting contour from image.
+        /// </summary>
         private Emgu.CV.Contour<System.Drawing.Point> contour;
+
+        /// <summary>
+        /// Holds contour for actual level.
+        /// </summary>
         private Emgu.CV.Contour<System.Drawing.Point> result;
+
+        /// <summary>
+        /// Stream geometry used for drawing game shapes.
+        /// </summary>
         private StreamGeometry geometry;
+
+        /// <summary>
+        /// Timer
+        /// </summary>
         private DispatcherTimer _timer;
+
+        /// <summary>
+        /// Used for displaying time left. 
+        /// </summary>
         private TimeSpan _time;
+
+        /// <summary>
+        /// Used for checking if round is over.
+        /// </summary>
         private DateTimeOffset startTime;
+
+        /// <summary>
+        /// Used to choose active Kinect connected to computer.
+        /// </summary>
         private KinectSensorChooser sensorChooser;
+
+        /// <summary>
+        /// Time for level. Depends on game type. Default: 15s.
+        /// </summary>
         private int levelTime = 15;
+
+        /// <summary>
+        /// Handles shapes images loaded from Images/shapes.
+        /// </summary>
         private List<Image<Bgr, Byte>> imageList;
 
-        private enum Level { Normal, Hard };
-
+        /// <summary>
+        /// Allows drawing skeleton when game starts.
+        /// </summary>
         private bool started = false;
+
+        /// <summary>
+        /// Level indicator.
+        /// </summary>
         private int level = 1;
+
+        /// <summary>
+        /// Blocking next level
+        /// </summary>
         private bool blocked = false;
 
+        /// <summary>
+        /// Used for checking if contour has been already drawn.
+        /// </summary>
         private bool[] drawed;
 
+        /// <summary>
+        /// Class constructor.
+        /// </summary>
         public Window1()
         {
             InitializeComponent();
             Loaded += onLoaded;
         }
 
+        /// <summary>
+        /// Stops sensor at the end.
+        /// </summary>
         ~Window1()
         {
             if (null != this.sensor)
@@ -130,6 +189,11 @@ namespace Emgu.CV.StickyTetris
             return list;
         }
 
+        /// <summary>
+        /// Execute when Windows has been loaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onLoaded(object sender, RoutedEventArgs e)
         {
             startScreenMusic.Play();
@@ -138,13 +202,11 @@ namespace Emgu.CV.StickyTetris
             this.sensorChooser.KinectChanged += SensorChooserOnKinectChanged;
             this.sensorChooserUi.KinectSensorChooser = this.sensorChooser;
             this.sensorChooser.Start();
-            // Create the drawing group we'll use for drawing
+
             this.drawingGroup = new DrawingGroup();
 
-            // Create an image source that we can use in our image control
             this.imageSource = new DrawingImage(this.drawingGroup);
 
-            // Display the drawing using our image control
             human.Source = this.imageSource;
 
             imageList = new List<Image<Bgr, byte>>();
@@ -159,6 +221,9 @@ namespace Emgu.CV.StickyTetris
             getNewContour();
         }
 
+        /// <summary>
+        /// Loads up contour for next level and draws it in the Window.
+        /// </summary>
         private void getNewContour()
         {
             blocked = false;
@@ -203,6 +268,11 @@ namespace Emgu.CV.StickyTetris
             sensorChooser.Stop();
         }
 
+        /// <summary>
+        /// Executes magic : skeleton drawing, testing, etc.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SensorSkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
         {
             if (started)
@@ -394,6 +464,12 @@ namespace Emgu.CV.StickyTetris
             }
         }
 
+        /// <summary>
+        /// Tests if skeleton joint is in contour.
+        /// </summary>
+        /// <param name="drawingContext"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
         private Boolean testContour(DrawingContext drawingContext, Point point)
         {
             if (
@@ -406,6 +482,11 @@ namespace Emgu.CV.StickyTetris
 
         }
 
+        /// <summary>
+        /// Tests if all skeleton joints are in contour.
+        /// </summary>
+        /// <param name="skeleton"></param>
+        /// <param name="drawingContext"></param>
         private void checkHumanPosition(Skeleton skeleton, DrawingContext drawingContext)
         {
             var values = Enum.GetValues(typeof(JointType));
@@ -433,6 +514,9 @@ namespace Emgu.CV.StickyTetris
             }
         }
 
+        /// <summary>
+        /// Sets up next level. If player won all levels, he's winner.
+        /// </summary>
         private void nextLevel()
         {
             stopTimer();
@@ -460,6 +544,11 @@ namespace Emgu.CV.StickyTetris
 
         }
 
+        /// <summary>
+        /// Start event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StartOnClick(object sender, RoutedEventArgs e)
         {
             level = 1;
@@ -478,6 +567,11 @@ namespace Emgu.CV.StickyTetris
             send.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Event handler in which active Kinect is choosed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void SensorChooserOnKinectChanged(object sender, KinectChangedEventArgs args)
         {
             if (args.OldSensor != null)
@@ -498,6 +592,7 @@ namespace Emgu.CV.StickyTetris
             {
                 try
                 {
+                    // Setting joints filtering to smooth movement.
                     TransformSmoothParameters smoothingParam = new TransformSmoothParameters();
                     {
                         smoothingParam.Smoothing = 0.5f;
@@ -522,11 +617,19 @@ namespace Emgu.CV.StickyTetris
             kinectRegion.KinectSensor = args.NewSensor;
         }
 
+        /// <summary>
+        /// Event handler for Media error.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MediaFailedHandler(object sender, ExceptionRoutedEventArgs e)
         {
             throw new System.Exception("Mediaelement error", e.ErrorException);
         }
 
+        /// <summary>
+        /// Starts timer - time left for level.
+        /// </summary>
         private void startTimer()
         {
             _time = TimeSpan.FromSeconds(levelTime);
@@ -545,11 +648,19 @@ namespace Emgu.CV.StickyTetris
             startTime = DateTimeOffset.Now;
         }
 
+        /// <summary>
+        /// Stops timer.
+        /// </summary>
         private void stopTimer()
         {
             _timer.Stop();
         }
 
+        /// <summary>
+        /// Timer tick event handler. If time's over, stops game and show Main Menu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void _timer_Tick(object sender, EventArgs e)
         {
             DateTimeOffset time = DateTimeOffset.Now;
@@ -567,6 +678,12 @@ namespace Emgu.CV.StickyTetris
             }
         }
 
+        /// <summary>
+        /// Draws line connecting all joints from param.
+        /// </summary>
+        /// <param name="skeleton"></param>
+        /// <param name="drawingContext"></param>
+        /// <param name="joints"></param> All joints to be drawn.
         private void drawManyBones(Skeleton skeleton, DrawingContext drawingContext, List<Joint> joints)
         {
             int counter = 0;
@@ -592,7 +709,12 @@ namespace Emgu.CV.StickyTetris
             Geometry g = new PathGeometry(new[] { pf });
             drawingContext.DrawGeometry(null, stickyPen, g);
         }
-
+        
+        /// <summary>
+        /// Event handler for option click - normal game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Normal_Click(object sender, RoutedEventArgs e)
         {
             optionSound.Stop();
@@ -602,6 +724,11 @@ namespace Emgu.CV.StickyTetris
             Normal.Foreground = new SolidColorBrush(Color.FromRgb(142, 0, 200));
         }
 
+        /// <summary>
+        /// Event handler for option click - hard game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Hard_Click(object sender, RoutedEventArgs e)
         {
             optionSound.Stop();
