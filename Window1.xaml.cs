@@ -6,6 +6,7 @@ using Microsoft.Kinect.Toolkit.Controls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,7 +20,7 @@ using Pen = System.Windows.Media.Pen;
 using Point = System.Windows.Point;
 
 
-namespace Emgu.CV.WPF
+namespace Emgu.CV.StickyTetris
 {
     /// <summary>
     /// Interaction logic for Window1.xaml
@@ -97,8 +98,6 @@ namespace Emgu.CV.WPF
 
         private enum Level { Normal, Hard };
 
-        private Level gameLevel = Level.Normal;
-
         private bool started = false;
         private int level = 1;
         private bool blocked = false;
@@ -149,7 +148,9 @@ namespace Emgu.CV.WPF
             human.Source = this.imageSource;
 
             imageList = new List<Image<Bgr, byte>>();
-            string[] filePaths = Directory.GetFiles(@"../Images/Shapes");
+            string[] filePaths = Directory.GetFiles(@"../Images/Shapes")
+                .Select(path => Path.GetFullPath(path))
+                                     .ToArray();
             foreach (string item in filePaths)
             {
                 imageList.Add((new Image<Bgr, byte>(item)).Resize(640, 480, INTER.CV_INTER_LANCZOS4));
@@ -479,7 +480,6 @@ namespace Emgu.CV.WPF
 
         private void SensorChooserOnKinectChanged(object sender, KinectChangedEventArgs args)
         {
-            bool error = false;
             if (args.OldSensor != null)
             {
                 try
@@ -491,7 +491,6 @@ namespace Emgu.CV.WPF
                 {
                     // KinectSensor might enter an invalid state while enabling/disabling streams or stream features.
                     // E.g.: sensor might be abruptly unplugged.
-                    error = true;
                 }
             }
 
@@ -515,7 +514,6 @@ namespace Emgu.CV.WPF
                 }
                 catch (InvalidOperationException)
                 {
-                    error = true;
                     // KinectSensor might enter an invalid state while enabling/disabling streams or stream features.
                     // E.g.: sensor might be abruptly unplugged.
                 }
@@ -599,7 +597,6 @@ namespace Emgu.CV.WPF
         {
             optionSound.Stop();
             optionSound.Play();
-            gameLevel = Level.Normal;
             levelTime = 15;
             Hard.Foreground = new SolidColorBrush(Color.FromRgb(195, 195, 195));
             Normal.Foreground = new SolidColorBrush(Color.FromRgb(142, 0, 200));
@@ -610,7 +607,6 @@ namespace Emgu.CV.WPF
             optionSound.Stop();
             optionSound.Play();
             levelTime = 7;
-            gameLevel = Level.Hard;
             Normal.Foreground = new SolidColorBrush(Color.FromRgb(195, 195, 195));
             Hard.Foreground = new SolidColorBrush(Color.FromRgb(142, 0, 200));
         }

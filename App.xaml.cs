@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Windows;
 
-namespace Emgu.CV.WPF
+namespace Emgu.CV.StickyTetris
 {
     /// <summary>
     /// Interaction logic for App.xaml

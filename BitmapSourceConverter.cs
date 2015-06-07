@@ -10,7 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Emgu.CV;
 
-namespace Emgu.CV.WPF
+namespace Emgu.CV.StickyTetris
 {
    public static class BitmapSourceConvert
    {

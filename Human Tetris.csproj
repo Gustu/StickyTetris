@@ -8,7 +8,7 @@
     <ProjectGuid>{B1D43BE6-AF83-41E5-990E-3E163CE42C79}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Emgu.CV.WPF</RootNamespace>
+    <RootNamespace>Emgu.CV.StickyTetris</RootNamespace>
     <AssemblyName>Human Tetris</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -18,6 +18,8 @@
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -30,17 +32,15 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -67,17 +67,21 @@
     <Reference Include="Microsoft.CSharp">
       <HintPath>..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Profile\Client\Microsoft.CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Kinect">
-      <HintPath>..\..\..\..\Program Files\Microsoft SDKs\Kinect\v1.8\Assemblies\Microsoft.Kinect.dll</HintPath>
+    <Reference Include="Microsoft.Kinect, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Microsoft.Kinect.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Kinect.Toolkit">
-      <HintPath>..\..\..\..\Users\hyaPC\Documents\Visual Studio 2013\Projects\Microsoft.Kinect.Toolkit\bin\Debug\Microsoft.Kinect.Toolkit.dll</HintPath>
+    <Reference Include="Microsoft.Kinect.Toolkit, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Microsoft.Kinect.Toolkit.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Kinect.Toolkit.Controls">
-      <HintPath>..\..\..\..\Users\hyaPC\Documents\Visual Studio 2013\Projects\Microsoft.Kinect.Toolkit.Controls\obj\Debug\Microsoft.Kinect.Toolkit.Controls.dll</HintPath>
+    <Reference Include="Microsoft.Kinect.Toolkit.Controls, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Microsoft.Kinect.Toolkit.Controls.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Kinect.Toolkit.Interaction">
-      <HintPath>..\..\..\..\Users\hyaPC\Documents\Human Tetris\Microsoft.Kinect.Toolkit.Interaction.dll</HintPath>
+    <Reference Include="Microsoft.Kinect.Toolkit.Interaction, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Microsoft.Kinect.Toolkit.Interaction.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

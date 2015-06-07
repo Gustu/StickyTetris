@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Emgu.CV.WPF.Properties {
+namespace Emgu.CV.StickyTetris.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

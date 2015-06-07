@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Emgu.CV.WPF.Properties {
+namespace Emgu.CV.StickyTetris.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Emgu.CV.WPF.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Emgu.CV.WPF.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Emgu.CV.StickyTetris.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,15 +57,6 @@ namespace Emgu.CV.WPF.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to C:/Users/hyaPC/Documents/Human Tetris/images/shapes/.
-        /// </summary>
-        public static string Folder {
-            get {
-                return ResourceManager.GetString("Folder", resourceCulture);
             }
         }
         
