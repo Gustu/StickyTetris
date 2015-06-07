@@ -1,0 +1,52 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:k="http://schemas.microsoft.com/kinect/2013"
+    xmlns:System="clr-namespace:System;assembly=System" x:Class="Emgu.CV.WPF.Window1"
+    Title="Sticky Tetris" Height="800" Width="1200" Closing="WindowClosing">
+    <Window.Resources>
+        <System:Uri x:Key="get_lucky">C:\Emgu\emgucv-windows-universal-cuda 2.4.10.1940\Emgu.CV.Example\WPF\Resources\get_lucky.mp3</System:Uri>
+        <System:Uri x:Key="bgUri">C:\Emgu\emgucv-windows-universal-cuda 2.4.10.1940\Emgu.CV.Example\WPF\Resources\Gorillaz - Feel Good Inc. (8-Bit NES Remix).mp3</System:Uri>
+        <System:Uri x:Key="levelUri">C:\Emgu\emgucv-windows-universal-cuda 2.4.10.1940\Emgu.CV.Example\WPF\Resources\player-grow.mp3</System:Uri>
+        <System:Uri x:Key="optionSound">C:\Emgu\emgucv-windows-universal-cuda 2.4.10.1940\Emgu.CV.Example\WPF\Resources\coin.mp3</System:Uri>
+        <Color x:Key="notchoosen">#FFC3C3C3</Color>
+        <Color x:Key="choosen">#FF8E00C8</Color>
+    </Window.Resources>
+    <Grid x:Name="Start">
+        <k:KinectSensorChooserUI HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="sensorChooserUi" />
+        <k:KinectUserViewer VerticalAlignment="Top" HorizontalAlignment="Center" k:KinectRegion.KinectRegion="{Binding ElementName=kinectRegion}" Height="100" UserColoringMode="Manual" />
+        <k:KinectRegion x:Name="kinectRegion">
+            <Grid>
+
+                <k:KinectTileButton x:Name="kinectButton" Click="StartOnClick" VerticalAlignment="Top" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="392,233,392,0" BorderThickness="0" LabelBackground="{x:Null}" FontWeight="Light" Foreground="White" Background="#FF8E00C8" Height="207" Width="408" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" Content="Start"/>
+
+                <Image HorizontalAlignment="Center" Height="100" Margin="0,110,0,0" VerticalAlignment="Top" Width="452" Source="Images/Logo.png"/>
+                <MediaElement x:Name="startScreenMusic" MediaFailed="MediaFailedHandler" Volume="47" Margin="10,10,1117,699" LoadedBehavior="Manual" Source="{DynamicResource get_lucky}"/>
+                <MediaElement x:Name="optionSound" MediaFailed="MediaFailedHandler" Volume="47" Margin="10,10,1117,699" LoadedBehavior="Manual" Source="{DynamicResource optionSound}"/>
+                <Label Content="Game Over. Try again." HorizontalAlignment="Center" Margin="0,460,0,0" VerticalAlignment="Top" Width="315" HorizontalContentAlignment="Center" FontSize="22" Foreground="#FF8E00C8" Name="game_over" Visibility="Hidden"/>
+
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,460,0,49" Width="352" Height="260">
+                    <k:KinectCircleButton x:Name="Normal" Label="Normal" Click="Normal_Click" Margin="0" Height="192" Content="" Width="Auto" VerticalAlignment="Center" HorizontalAlignment="Left" Background="{x:Null}" ContentForeground="#FF8A5FD4" ContentPressedForeground="#FF3740F0" HorizontalLabelAlignment="Center" VerticalLabelAlignment="Center" FontSize="36" ClipToBounds="True" >
+                        <k:KinectCircleButton.Foreground>
+                            <SolidColorBrush Color="{DynamicResource choosen}"/>
+                        </k:KinectCircleButton.Foreground>
+                    </k:KinectCircleButton>
+                    <k:KinectCircleButton x:Name="Hard" Label="Hard" Click="Hard_Click" Margin="0" Height="192" LabelBackground="{x:Null}" Content="" Width="165" VerticalAlignment="Center" HorizontalAlignment="Right" Background="{x:Null}" ContentForeground="{x:Null}" ContentPressedForeground="#FF3740F0" HorizontalLabelAlignment="Center" VerticalLabelAlignment="Center" FontSize="36" ClipToBounds="True" >
+                        <k:KinectCircleButton.Foreground>
+                            <SolidColorBrush Color="{DynamicResource notchoosen}"/>
+                        </k:KinectCircleButton.Foreground>
+                    </k:KinectCircleButton>
+                </Grid>
+            </Grid>
+        </k:KinectRegion>
+        <Grid x:Name="Game" Visibility="Hidden">
+            <MediaElement x:Name="bgMusic" MediaFailed="MediaFailedHandler" Volume="47" Margin="10,10,1117,699" LoadedBehavior="Manual" Source="{DynamicResource bgUri}"/>
+            <MediaElement x:Name="levelSound" MediaFailed="MediaFailedHandler" Volume="47" Margin="10,10,1117,699" LoadedBehavior="Manual" Source="{DynamicResource levelUri}"/>
+            
+            <Image x:Name="human" Stretch="Fill"/>
+            <TextBlock Name="tbTime" Foreground="#FF8E00C8" Margin="0,0,31,0" FontSize="72" HorizontalAlignment="Right" VerticalAlignment="Top" />
+            <TextBlock Name="levelTB" Foreground="#FF8E00C8" Margin="31,0,0,0" FontSize="72" HorizontalAlignment="Left" VerticalAlignment="Top" Text="Level 1" />
+            <TextBlock Name="winnerTb" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Text="Winner!!!" FontSize="140" FontWeight="Bold" Visibility="Hidden"/>
+        </Grid>
+    </Grid>
+</Window>
